@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Landjugend Adnet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-mark">LJ</span>
+                <span class="logo-text">Landjugend<br><strong>Adnet</strong></span>
+            </a>
+            <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="nav" id="main-nav">
+                <ul>
+                    <li><a href="index.html">Startseite</a></li>
+                    <li><a href="ueber-uns.html">Über uns</a></li>
+                    <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                    <li><a href="vorstand.html">Vorstand</a></li>
+                    <li><a href="galerie.html">Galerie</a></li>
+                    <li><a href="kontakt.html" class="active">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <span class="kicker">Kontakt</span>
+            <h1>Sag Hallo!</h1>
+            <p>Du hast Fragen, willst Mitglied werden oder uns einfach Hallo sagen? Wir freuen uns!</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container contact-grid">
+            <div class="contact-info">
+                <h2>So erreichst du uns</h2>
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <div>
+                        <h4>Adresse</h4>
+                        <p>Landjugend Adnet<br>5421 Adnet, Salzburg<br>Österreich</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <div>
+                        <h4>E-Mail</h4>
+                        <p><a href="mailto:info@landjugend-adnet.at">info@landjugend-adnet.at</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <div>
+                        <h4>Telefon</h4>
+                        <p><a href="tel:+436641234567">+43 664 123 45 67</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📅</span>
+                    <div>
+                        <h4>Vereinsabend</h4>
+                        <p>Jeden ersten Freitag im Monat<br>ab 19:30 Uhr im Vereinsheim</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contact-form">
+                <h2>Schreib uns</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-Mail *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Betreff</label>
+                    <select id="subject" name="subject">
+                        <option value="allgemein">Allgemeine Anfrage</option>
+                        <option value="mitgliedschaft">Mitgliedschaft</option>
+                        <option value="veranstaltung">Veranstaltung</option>
+                        <option value="presse">Presse</option>
+                        <option value="sonstiges">Sonstiges</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Nachricht *</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" id="dsgvo" name="dsgvo" required>
+                    <label for="dsgvo">Ich akzeptiere die Datenschutzbestimmungen *</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">Nachricht senden</button>
+                <p class="form-status" id="form-status"></p>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <span class="logo logo-footer">
+                    <span class="logo-mark">LJ</span>
+                    <span class="logo-text">Landjugend<br><strong>Adnet</strong></span>
+                </span>
+                <p>Tradition. Gemeinschaft. Zukunft.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="ueber-uns.html">Über uns</a></li>
+                    <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
+                    <li><a href="vorstand.html">Vorstand</a></li>
+                    <li><a href="galerie.html">Galerie</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontakt</h4>
+                <p>Landjugend Adnet<br>5421 Adnet, Salzburg<br>Österreich</p>
+                <p><a href="mailto:info@landjugend-adnet.at">info@landjugend-adnet.at</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Folge uns</h4>
+                <div class="social">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="TikTok">TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 Landjugend Adnet · <a href="#">Impressum</a> · <a href="#">Datenschutz</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
