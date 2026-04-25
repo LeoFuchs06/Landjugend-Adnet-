@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landjugend Adnet - Übersicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green-900:#1b4332;--green-700:#2d6a4f;--green-500:#52b788;--green-300:#95d5b2;--green-100:#d8f3dc;--cream:#fdf6ec;--sand:#f4ebd9;--ink:#1a1a1a;--muted:#6b7280;--line:#e5e7eb;--white:#fff;--shadow-md:0 8px 24px rgba(27,67,50,.08);--shadow-lg:0 24px 48px rgba(27,67,50,.14);--radius:14px;--radius-sm:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--ink);line-height:1.6;background:#fff;-webkit-font-smoothing:antialiased}
+.container{max-width:1200px;margin:0 auto;padding:0 1.25rem}
+h1,h2,h3,h4{font-family:'Bitter',serif;font-weight:700;line-height:1.2}
+h1{font-size:clamp(2.25rem,7vw,4rem)}
+h2{font-size:clamp(1.6rem,5vw,2.5rem);margin-bottom:1rem}
+h3{font-size:1.2rem;margin-bottom:.5rem}
+h4{font-size:1rem;margin-bottom:.75rem}
+p{margin-bottom:1rem;color:#374151}
+a{color:var(--green-700);text-decoration:none}
+
+.header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;max-width:1200px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:.65rem;color:var(--ink)}
+.logo-mark{width:42px;height:42px;background:linear-gradient(135deg,var(--green-700),var(--green-500));color:#fff;display:grid;place-items:center;border-radius:50%;font-weight:700;font-family:'Bitter',serif;box-shadow:var(--shadow-md)}
+.logo-text{font-size:.8rem;line-height:1.15;font-family:'Bitter',serif}
+.logo-text strong{font-size:1rem;color:var(--green-900);display:block}
+.nav-pill{display:flex;gap:.4rem;flex-wrap:wrap}
+.nav-pill a{padding:.4rem .85rem;border-radius:100px;background:var(--green-100);color:var(--green-900);font-size:.8rem;font-weight:500}
+
+.hero{position:relative;padding:4rem 0 5rem;background:linear-gradient(135deg,var(--cream) 0%,var(--green-100) 100%);text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(82,183,136,.15) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(45,106,79,.12) 0%,transparent 50%)}
+.hero-content{position:relative;max-width:800px;margin:0 auto}
+.eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:.75rem;font-weight:600;color:var(--green-700);margin-bottom:.75rem}
+.hero h1{color:var(--green-900);margin-bottom:1rem;letter-spacing:-.02em}
+.hero-lead{font-size:clamp(1rem,3.5vw,1.3rem);color:#374151;margin-bottom:2rem}
+.hero-cta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+.btn{display:inline-block;padding:.85rem 1.5rem;border-radius:var(--radius-sm);font-weight:600;font-size:.95rem;border:2px solid transparent;cursor:pointer;transition:all .2s;text-align:center}
+.btn-primary{background:var(--green-700);color:#fff}
+.btn-primary:hover{background:var(--green-900)}
+.btn-secondary{background:transparent;color:var(--ink);border-color:var(--ink)}
+
+.section{padding:3.5rem 0}
+.section-alt{background:var(--sand)}
+.section-head{text-align:center;max-width:680px;margin:0 auto 2.5rem}
+.kicker{display:inline-block;text-transform:uppercase;letter-spacing:.15em;font-size:.75rem;font-weight:600;color:var(--green-700);margin-bottom:.5rem}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.card{background:#fff;padding:1.5rem;border-radius:var(--radius);border:1px solid var(--line);transition:all .3s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--green-300)}
+.card-icon{font-size:2.25rem;margin-bottom:.75rem}
+
+.events{display:flex;flex-direction:column;gap:1rem;max-width:900px;margin:0 auto}
+.event{display:flex;gap:1.25rem;padding:1.25rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);align-items:flex-start;transition:all .2s}
+.event:hover{border-color:var(--green-300);box-shadow:var(--shadow-md)}
+.event-highlight{background:linear-gradient(135deg,var(--cream),var(--green-100));border-color:var(--green-300)}
+.event-date{flex-shrink:0;background:linear-gradient(135deg,var(--green-700),var(--green-500));color:#fff;padding:.85rem 1rem;border-radius:var(--radius-sm);text-align:center;min-width:64px}
+.event-date .day{display:block;font-size:1.6rem;font-weight:700;line-height:1;font-family:'Bitter',serif}
+.event-date .month{display:block;text-transform:uppercase;font-size:.7rem;letter-spacing:.1em;margin-top:3px}
+.event-info{flex:1;min-width:0}
+.event-info h3{color:var(--green-900);margin-bottom:.4rem;font-size:1.15rem}
+.event-info p:last-child{margin-bottom:0}
+.event-meta{color:var(--muted);font-size:.85rem;margin-bottom:.5rem}
+.badge{display:inline-block;background:var(--green-700);color:#fff;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;padding:.2rem .6rem;border-radius:100px;font-weight:600;margin-bottom:.4rem}
+
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem}
+.team-member{background:#fff;padding:1.25rem;border-radius:var(--radius);border:1px solid var(--line);text-align:center;transition:all .3s}
+.team-member:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--green-300)}
+.avatar{width:72px;height:72px;border-radius:50%;margin:0 auto .75rem;display:grid;place-items:center;font-family:'Bitter',serif;font-size:1.4rem;font-weight:700;color:#fff;box-shadow:var(--shadow-md)}
+.a1{background:linear-gradient(135deg,#2d6a4f,#52b788)}
+.a2{background:linear-gradient(135deg,#1d3557,#457b9d)}
+.a3{background:linear-gradient(135deg,#b08968,#ddb892)}
+.a4{background:linear-gradient(135deg,#6a4c93,#9d8acb)}
+.a5{background:linear-gradient(135deg,#d62828,#f77f00)}
+.a6{background:linear-gradient(135deg,#2a9d8f,#8ecae6)}
+.a7{background:linear-gradient(135deg,#e63946,#f4a261)}
+.a8{background:linear-gradient(135deg,#588157,#a3b18a)}
+.team-member h3{color:var(--green-900);margin-bottom:.2rem;font-size:1rem}
+.role{color:var(--green-700);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;margin:0}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.6rem}
+.g-item{aspect-ratio:1;border-radius:var(--radius-sm);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:.75rem;cursor:pointer;transition:transform .3s}
+.g-item:hover{transform:scale(1.03)}
+.g-item::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent 50%)}
+.g-item span{position:relative;color:#fff;font-weight:600;font-size:.8rem}
+
+.section-cta{background:linear-gradient(135deg,var(--green-900),var(--green-700));color:#fff;text-align:center;padding:3.5rem 0}
+.section-cta h2{color:#fff}
+.section-cta p{color:rgba(255,255,255,.9);margin-bottom:1.5rem;font-size:1.05rem}
+.section-cta .btn-primary{background:#fff;color:var(--green-900)}
+
+.contact-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+@media(min-width:780px){.contact-grid{grid-template-columns:1fr 1.4fr;gap:3rem}}
+.contact-item{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}
+.contact-item:last-child{border-bottom:none}
+.contact-icon{font-size:1.4rem;flex-shrink:0}
+.contact-item h4{margin-bottom:.2rem;color:var(--green-900);font-size:.95rem}
+.contact-item p{margin:0;color:var(--muted);font-size:.9rem}
+
+.contact-form{background:#fff;padding:1.75rem;border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow-md)}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.85rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:.7rem .9rem;border:1px solid var(--line);border-radius:var(--radius-sm);font-family:inherit;font-size:.95rem}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--green-500);box-shadow:0 0 0 3px rgba(82,183,136,.15)}
+
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;text-align:center}
+@media(min-width:600px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat-num{display:block;font-family:'Bitter',serif;font-size:2.5rem;font-weight:700;color:var(--green-700);line-height:1}
+.stat-label{display:block;margin-top:.4rem;color:var(--muted);font-weight:500;font-size:.85rem}
+
+.footer{background:var(--ink);color:rgba(255,255,255,.8);padding:3rem 0 1.5rem;text-align:center}
+.footer p{color:rgba(255,255,255,.7);font-size:.85rem}
+.footer a{color:var(--green-300)}
+
+.divider{height:8px;background:linear-gradient(90deg,var(--green-700),var(--green-500),var(--green-300));margin:0}
+
+.preview-banner{background:#1a1a1a;color:#fff;text-align:center;padding:.5rem;font-size:.8rem}
+.preview-banner strong{color:var(--green-300)}
+</style>
+</head>
+<body>
+
+<div class="preview-banner">📱 <strong>Übersicht</strong> – alle Seiten der Website auf einen Blick</div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="#start" class="logo">
+      <span class="logo-mark">LJ</span>
+      <span class="logo-text">Landjugend<strong>Adnet</strong></span>
+    </a>
+    <nav class="nav-pill">
+      <a href="#start">Start</a>
+      <a href="#ueber">Über</a>
+      <a href="#events">Termine</a>
+      <a href="#vorstand">Vorstand</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. STARTSEITE -->
+<section class="hero" id="start">
+  <div class="container hero-content">
+    <p class="eyebrow">Willkommen bei der</p>
+    <h1>Landjugend Adnet</h1>
+    <p class="hero-lead">Tradition leben. Gemeinschaft erleben. Zukunft gestalten.</p>
+    <div class="hero-cta">
+      <a href="#events" class="btn btn-primary">Veranstaltungen</a>
+      <a href="#ueber" class="btn btn-secondary">Mehr erfahren</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Unsere Werte</span>
+      <h2>Was uns ausmacht</h2>
+      <p>Mehr als ein Verein – eine Gemeinschaft junger Menschen.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="card-icon">🌾</div><h3>Brauchtum</h3><p>Wir pflegen die Traditionen unserer Heimat.</p></div>
+      <div class="card"><div class="card-icon">🤝</div><h3>Gemeinschaft</h3><p>Zusammenhalt steht bei uns im Mittelpunkt.</p></div>
+      <div class="card"><div class="card-icon">🎯</div><h3>Engagement</h3><p>Wir packen mit Begeisterung an.</p></div>
+      <div class="card"><div class="card-icon">🌱</div><h3>Persönlichkeit</h3><p>Raum für Entwicklung und Wachstum.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 2. ÜBER UNS -->
+<section class="section section-alt" id="ueber">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Über uns</span>
+      <h2>Wer wir sind</h2>
+      <p>Junge Menschen aus Adnet zwischen 14 und 35 Jahren, die mit Herz, Verstand und Hand anpacken. Wir sind Teil der größten Jugendorganisation Österreichs und fest in unserer Heimatgemeinde verwurzelt.</p>
+    </div>
+    <div class="stats">
+      <div><span class="stat-num">85+</span><span class="stat-label">Mitglieder</span></div>
+      <div><span class="stat-num">12</span><span class="stat-label">Events/Jahr</span></div>
+      <div><span class="stat-num">40+</span><span class="stat-label">Jahre Tradition</span></div>
+      <div><span class="stat-num">∞</span><span class="stat-label">Erinnerungen</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 3. VERANSTALTUNGEN -->
+<section class="section" id="events">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Termine</span>
+      <h2>Veranstaltungen 2026</h2>
+    </div>
+    <div class="events">
+      <div class="event">
+        <div class="event-date"><span class="day">15</span><span class="month">Mai</span></div>
+        <div class="event-info"><h3>Maibaumaufstellen</h3><p class="event-meta">🕘 16:00 · 📍 Dorfplatz</p><p>Traditionelles Maibaumaufstellen mit Musik und Tanz.</p></div>
+      </div>
+      <div class="event">
+        <div class="event-date"><span class="day">22</span><span class="month">Jun</span></div>
+        <div class="event-info"><h3>Sonnwendfeier</h3><p class="event-meta">🕘 20:00 · 📍 Adneter Riedl</p><p>Stimmungsvolles Sonnwendfeuer hoch über Adnet.</p></div>
+      </div>
+      <div class="event event-highlight">
+        <div class="event-date"><span class="day">15</span><span class="month">Aug</span></div>
+        <div class="event-info"><span class="badge">Highlight</span><h3>Sommerfest</h3><p class="event-meta">🕘 14:00 · 📍 Festplatz</p><p>Live-Musik, Bar, Spiele und beste Stimmung bis tief in die Nacht.</p></div>
+      </div>
+      <div class="event event-highlight">
+        <div class="event-date"><span class="day">27</span><span class="month">Sep</span></div>
+        <div class="event-info"><span class="badge">Highlight</span><h3>Erntedankfest</h3><p class="event-meta">🕘 10:00 · 📍 Dorfplatz</p><p>Festumzug, Frühschoppen und regionale Schmankerl.</p></div>
+      </div>
+      <div class="event">
+        <div class="event-date"><span class="day">06</span><span class="month">Dez</span></div>
+        <div class="event-info"><h3>Krampuslauf</h3><p class="event-meta">🕘 18:00 · 📍 Hauptstraße</p><p>Schaurig-schöner Umzug mit Perchten und Krampussen.</p></div>
+      </div>
+      <div class="event">
+        <div class="event-date"><span class="day">31</span><span class="month">Dez</span></div>
+        <div class="event-info"><h3>Silvesterfeier</h3><p class="event-meta">🕘 21:00 · 📍 Vereinsheim</p><p>Gemeinsam ins neue Jahr starten.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 4. VORSTAND -->
+<section class="section section-alt" id="vorstand">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Unser Team</span>
+      <h2>Der Vorstand</h2>
+      <p>Die Köpfe hinter der Landjugend Adnet.</p>
+    </div>
+    <div class="team">
+      <div class="team-member"><div class="avatar a1">MM</div><h3>Maria Mustermann</h3><p class="role">Obfrau</p></div>
+      <div class="team-member"><div class="avatar a2">FH</div><h3>Franz Huber</h3><p class="role">Stellvertreter</p></div>
+      <div class="team-member"><div class="avatar a3">AS</div><h3>Anna Schmid</h3><p class="role">Schriftführerin</p></div>
+      <div class="team-member"><div class="avatar a4">TG</div><h3>Thomas Gruber</h3><p class="role">Kassier</p></div>
+      <div class="team-member"><div class="avatar a5">LB</div><h3>Lisa Berger</h3><p class="role">Brauchtum</p></div>
+      <div class="team-member"><div class="avatar a6">MK</div><h3>Michael König</h3><p class="role">Sport</p></div>
+      <div class="team-member"><div class="avatar a7">SP</div><h3>Sophie Pichler</h3><p class="role">Social Media</p></div>
+      <div class="team-member"><div class="avatar a8">JL</div><h3>Jakob Leitner</h3><p class="role">Beirat</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 5. GALERIE -->
+<section class="section" id="galerie">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Eindrücke</span>
+      <h2>Galerie</h2>
+      <p>Bilder aus unserem Vereinsleben.</p>
+    </div>
+    <div class="gallery">
+      <div class="g-item" style="background:linear-gradient(135deg,#2d6a4f,#52b788)"><span>Sommerfest</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#b08968,#e6ccb2)"><span>Erntedank</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#1d3557,#457b9d)"><span>Skitag</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#d62828,#f77f00)"><span>Maibaum</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#6a4c93,#b39bc8)"><span>Krampus</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#e63946,#f1a8b1)"><span>Soziales</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#2a9d8f,#8ecae6)"><span>Sensenmähen</span></div>
+      <div class="g-item" style="background:linear-gradient(135deg,#ffb703,#fb8500)"><span>Sonnwend</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CTA -->
+<section class="section-cta">
+  <div class="container">
+    <h2>Werde Teil der Landjugend</h2>
+    <p>14–35 Jahre? Lust auf Gemeinschaft? Wir freuen uns auf dich!</p>
+    <a href="#kontakt" class="btn btn-primary">Jetzt mitmachen</a>
+  </div>
+</section>
+
+<!-- 7. KONTAKT -->
+<section class="section section-alt" id="kontakt">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Kontakt</span>
+      <h2>Sag Hallo!</h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-item"><span class="contact-icon">📍</span><div><h4>Adresse</h4><p>5421 Adnet, Salzburg</p></div></div>
+        <div class="contact-item"><span class="contact-icon">📧</span><div><h4>E-Mail</h4><p>info@landjugend-adnet.at</p></div></div>
+        <div class="contact-item"><span class="contact-icon">📱</span><div><h4>Telefon</h4><p>+43 664 123 45 67</p></div></div>
+        <div class="contact-item"><span class="contact-icon">📅</span><div><h4>Vereinsabend</h4><p>1. Freitag im Monat ab 19:30</p></div></div>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault();alert('Danke! Diese Demo speichert keine Daten.');this.reset();">
+        <div class="form-group"><label for="n">Name</label><input id="n" type="text" required></div>
+        <div class="form-group"><label for="e">E-Mail</label><input id="e" type="email" required></div>
+        <div class="form-group"><label for="m">Nachricht</label><textarea id="m" rows="4" required></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Senden</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p><strong style="color:#fff">Landjugend Adnet</strong> · Tradition. Gemeinschaft. Zukunft.</p>
+    <p>&copy; 2026 Landjugend Adnet · <a href="#">Impressum</a> · <a href="#">Datenschutz</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
