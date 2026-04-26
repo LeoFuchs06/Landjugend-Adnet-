@@ -1528,3 +1528,70 @@ img { max-width: 100%; display: block; }
     .lightbox-next { right: 0.5rem; }
     .lightbox-close { top: 0.75rem; right: 0.75rem; }
 }
+
+/* ── Achievement spotlight ──────────────────────────────── */
+.achievement-spotlight {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    background: linear-gradient(135deg, #fffbeb, #fef9c3);
+    border: 2px solid #fbbf24;
+    border-radius: var(--radius);
+    padding: 2rem 2.5rem;
+    margin-bottom: 2.5rem;
+    transition: transform var(--duration-slow) var(--ease-spring), box-shadow var(--duration-slow) var(--ease-out);
+}
+.achievement-spotlight:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(251, 191, 36, 0.20);
+}
+.achievement-spotlight-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.achievement-spotlight-body h3 {
+    color: #78350f;
+    margin-bottom: 0.5rem;
+    font-size: 1.35rem;
+}
+.achievement-spotlight-body .kicker { color: #92400e; }
+.achievement-spotlight-body p { margin: 0; color: #713f12; line-height: 1.65; }
+
+/* ── Achievements grid ──────────────────────────────────── */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.achievement-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform var(--duration-slow) var(--ease-spring), box-shadow var(--duration-slow) var(--ease-out);
+}
+.achievement-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.medal-icon { font-size: 2rem; display: block; margin-bottom: 0.75rem; }
+.achievement-card h4 { color: var(--green-900); margin-bottom: 0.25rem; font-size: 1rem; }
+.achievement-card p { font-size: 0.875rem; margin: 0; color: var(--muted); }
+.medal-gold { border-color: #fbbf24; background: linear-gradient(135deg, #fff, #fefce8); }
+.medal-silver { border-color: #9ca3af; background: linear-gradient(135deg, #fff, #f9fafb); }
+.medal-bronze { border-color: #d97706; background: linear-gradient(135deg, #fff, #fffbeb); }
+
+.achievements-note {
+    text-align: center;
+    font-weight: 700;
+    color: var(--green-900);
+    font-size: 0.95rem;
+    padding: 1rem;
+    background: var(--green-100);
+    border-radius: var(--radius-sm);
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .achievement-spotlight { flex-direction: column; gap: 1rem; }
+}

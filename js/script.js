@@ -103,7 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
             { selector: '.contact-info',     cls: 'reveal-left'  },
             { selector: '.contact-form',     cls: 'reveal-right' },
             { selector: '.gallery-item',     cls: 'reveal'       },
-            { selector: '.group-photo-wrap', cls: 'reveal-scale' },
+            { selector: '.group-photo-wrap',      cls: 'reveal-scale' },
+            { selector: '.achievement-card',      cls: 'reveal'       },
+            { selector: '.achievement-spotlight', cls: 'reveal-scale' },
         ];
 
         revealMap.forEach(({ selector, cls }) => {
