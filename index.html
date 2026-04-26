@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../IMG/favicon_lj.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landjugend Adnet - Tradition. Gemeinschaft. Zukunft.</title>
     <meta name="description" content="Offizielle Website der Landjugend Adnet. Erfahre alles über unsere Veranstaltungen, unseren Vorstand und unsere Aktivitäten.">
@@ -11,10 +12,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
     <header class="header">
         <div class="container header-inner">
             <a href="index.html" class="logo">
-                <span class="logo-mark">LJ</span>
+                <img class="logo-mark" src="../IMG/favicon_lj.png" alt="Landjugend Adnet">
                 <span class="logo-text">Landjugend<br><strong>Adnet</strong></span>
             </a>
             <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
@@ -33,18 +35,24 @@
         </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="container hero-content">
-            <p class="hero-eyebrow">Willkommen bei der</p>
-            <h1>Landjugend Adnet</h1>
-            <p class="hero-lead">Tradition leben. Gemeinschaft erleben. Zukunft gestalten.</p>
-            <div class="hero-cta">
-                <a href="veranstaltungen.html" class="btn btn-primary">Unsere Veranstaltungen</a>
-                <a href="ueber-uns.html" class="btn btn-secondary">Mehr erfahren</a>
+    <div id="main-content" class="photo-reveal-wrap">
+        <div class="photo-reveal-stage">
+            <img src="../IMG/Landjugend_Gruppe.JPG" alt="Die Landjugend Adnet" class="photo-reveal-img">
+            <div class="photo-reveal-overlay"></div>
+            <div class="photo-reveal-text">
+                <p class="hero-eyebrow">Willkommen bei der</p>
+                <h1 class="hero-title">Landjugend Adnet</h1>
+                <p class="hero-lead">Tradition leben. Gemeinschaft erleben. Zukunft gestalten.</p>
+                <div class="hero-cta">
+                    <a href="veranstaltungen.html" class="btn btn-primary">Unsere Veranstaltungen</a>
+                    <a href="ueber-uns.html" class="btn btn-outline-light">Mehr erfahren</a>
+                </div>
+            </div>
+            <div class="scroll-hint" aria-hidden="true">
+                <span></span>
             </div>
         </div>
-    </section>
+    </div>
 
     <section class="section">
         <div class="container">
@@ -118,7 +126,7 @@
         <div class="container cta-inner">
             <h2>Werde Teil der Landjugend Adnet</h2>
             <p>Du bist zwischen 14 und 35 Jahren und hast Lust auf Gemeinschaft, Spaß und sinnvolles Engagement? Dann bist du bei uns genau richtig!</p>
-            <a href="kontakt.html" class="btn btn-primary btn-large">Jetzt Mitglied werden</a>
+            <a href="https://sbg.landjugend.at/mitglied-werden" target="_blank" rel="noopener" class="btn btn-primary btn-large">Jetzt Mitglied werden</a>
         </div>
     </section>
 
@@ -126,7 +134,7 @@
         <div class="container footer-inner">
             <div class="footer-col">
                 <span class="logo logo-footer">
-                    <span class="logo-mark">LJ</span>
+                    <img class="logo-mark" src="../IMG/favicon_lj.png" alt="Landjugend Adnet">
                     <span class="logo-text">Landjugend<br><strong>Adnet</strong></span>
                 </span>
                 <p>Tradition. Gemeinschaft. Zukunft.</p>
@@ -148,7 +156,7 @@
             <div class="footer-col">
                 <h4>Folge uns</h4>
                 <div class="social">
-                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="https://www.instagram.com/lj_adnet/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
                     <a href="#" aria-label="Facebook">Facebook</a>
                     <a href="#" aria-label="TikTok">TikTok</a>
                 </div>

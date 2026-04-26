@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../IMG/favicon_lj.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veranstaltungen - Landjugend Adnet</title>
     <link rel="stylesheet" href="css/style.css">
@@ -10,10 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
     <header class="header">
         <div class="container header-inner">
             <a href="index.html" class="logo">
-                <span class="logo-mark">LJ</span>
+                <img class="logo-mark" src="../IMG/favicon_lj.png" alt="Landjugend Adnet">
                 <span class="logo-text">Landjugend<br><strong>Adnet</strong></span>
             </a>
             <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
@@ -32,7 +34,7 @@
         </div>
     </header>
 
-    <section class="page-hero">
+    <section id="main-content" class="page-hero">
         <div class="container">
             <span class="kicker">Termine</span>
             <h1>Veranstaltungen</h1>
@@ -47,7 +49,7 @@
                 <h2>Was uns 2026 erwartet</h2>
             </div>
             <div class="events">
-                <article class="event">
+                <article class="event" data-date="2026-05-15">
                     <div class="event-date">
                         <span class="day">15</span>
                         <span class="month">Mai</span>
@@ -59,7 +61,7 @@
                     </div>
                 </article>
 
-                <article class="event">
+                <article class="event" data-date="2026-06-22">
                     <div class="event-date">
                         <span class="day">22</span>
                         <span class="month">Jun</span>
@@ -71,7 +73,7 @@
                     </div>
                 </article>
 
-                <article class="event event-highlight">
+                <article class="event event-highlight" data-date="2026-08-15">
                     <div class="event-date">
                         <span class="day">15</span>
                         <span class="month">Aug</span>
@@ -84,7 +86,7 @@
                     </div>
                 </article>
 
-                <article class="event">
+                <article class="event" data-date="2026-09-12">
                     <div class="event-date">
                         <span class="day">12</span>
                         <span class="month">Sep</span>
@@ -96,7 +98,7 @@
                     </div>
                 </article>
 
-                <article class="event event-highlight">
+                <article class="event event-highlight" data-date="2026-09-27">
                     <div class="event-date">
                         <span class="day">27</span>
                         <span class="month">Sep</span>
@@ -109,7 +111,7 @@
                     </div>
                 </article>
 
-                <article class="event">
+                <article class="event" data-date="2026-12-06">
                     <div class="event-date">
                         <span class="day">06</span>
                         <span class="month">Dez</span>
@@ -121,7 +123,7 @@
                     </div>
                 </article>
 
-                <article class="event">
+                <article class="event" data-date="2026-12-31">
                     <div class="event-date">
                         <span class="day">31</span>
                         <span class="month">Dez</span>
@@ -148,7 +150,7 @@
         <div class="container footer-inner">
             <div class="footer-col">
                 <span class="logo logo-footer">
-                    <span class="logo-mark">LJ</span>
+                    <img class="logo-mark" src="../IMG/favicon_lj.png" alt="Landjugend Adnet">
                     <span class="logo-text">Landjugend<br><strong>Adnet</strong></span>
                 </span>
                 <p>Tradition. Gemeinschaft. Zukunft.</p>
@@ -170,7 +172,7 @@
             <div class="footer-col">
                 <h4>Folge uns</h4>
                 <div class="social">
-                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="https://www.instagram.com/lj_adnet/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
                     <a href="#" aria-label="Facebook">Facebook</a>
                     <a href="#" aria-label="TikTok">TikTok</a>
                 </div>
