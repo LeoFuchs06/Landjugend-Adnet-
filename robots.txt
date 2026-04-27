@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /preview.html
+Disallow: /404.html
+Disallow: /impressum.html
+Disallow: /datenschutz.html
+
+Sitemap: https://landjugend-adnet.at/sitemap.xml
