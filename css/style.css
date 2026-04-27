@@ -1850,3 +1850,293 @@ body.has-glow-cursor button {
 @media (prefers-reduced-motion: reduce) {
     .error-zero { animation: none; }
 }
+
+/* ============================================
+   2026 NATIVE PLATFORM FEATURES
+   View Transitions · Scroll-Driven · text-wrap · color-mix · @property · :has · Dark Mode
+   ============================================ */
+
+/* ----- Cross-Document View Transitions -----
+   Sanfte Cross-Page-Übergänge ohne SPA. Browser-native.
+   Fällt graceful zurück auf Standard-Navigation in älteren Browsern. */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) {
+    animation: 280ms cubic-bezier(0.4, 0, 0.2, 1) both fadeOutVT;
+}
+::view-transition-new(root) {
+    animation: 380ms cubic-bezier(0.22, 1, 0.36, 1) both fadeInVT;
+}
+@keyframes fadeOutVT {
+    to { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes fadeInVT {
+    from { opacity: 0; transform: translateY(8px); }
+}
+::view-transition-group(*) { animation-duration: 380ms; }
+
+/* Header bleibt stabil über Pages hinweg */
+.header { view-transition-name: site-header; }
+.footer { view-transition-name: site-footer; }
+
+/* ----- Typography polish (text-wrap) ----- */
+h1, h2, h3, .hero-title, .kicker {
+    text-wrap: balance;
+}
+p, .hero-lead, .legal p {
+    text-wrap: pretty;
+}
+
+/* ----- Animated gradient via @property -----
+   Macht --gradient-angle echt animierbar (statt nur als String). */
+@property --gradient-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 135deg;
+}
+@property --mesh-x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 20%;
+}
+
+.section-cta {
+    --gradient-angle: 135deg;
+    background:
+        linear-gradient(var(--gradient-angle), var(--green-900), var(--green-700));
+    animation: gradientShift 14s var(--ease-in-out) infinite alternate;
+}
+@keyframes gradientShift {
+    0%   { --gradient-angle: 135deg; }
+    100% { --gradient-angle: 195deg; }
+}
+
+/* ----- color-mix() Hover Tints -----
+   Wahrgenommen-uniforme Hover-States. */
+.btn-primary { background: var(--green-700); color: #fff; }
+.btn-primary:hover {
+    background: color-mix(in oklch, var(--green-700), black 12%);
+}
+.card {
+    transition: background var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+}
+.card:hover {
+    border-color: color-mix(in oklch, var(--green-300), var(--green-700) 30%);
+}
+.event:hover {
+    background: color-mix(in oklch, var(--white), var(--green-100) 60%);
+}
+
+/* ----- :has() driven smart styling -----
+   Cards mit Medaille bekommen subtile Highlight-Border ohne extra Klasse. */
+.team-member:has(.role:not(:empty)) { border-bottom: 3px solid var(--green-300); }
+.event:has(.badge) { border-left: 3px solid var(--green-700); }
+.card:has(.card-icon-svg):hover {
+    box-shadow:
+        0 12px 28px rgba(27, 67, 50, 0.10),
+        0 0 0 1px color-mix(in oklch, var(--green-300), transparent 60%);
+}
+.form-group:has(input:focus, textarea:focus) label {
+    color: var(--green-700);
+}
+
+/* ----- Scroll-Driven Animations (CSS only, no JS) -----
+   Top-Progress-Bar via animation-timeline: scroll() — ersetzt teilweise das JS-progressBar.
+   Nur in Browsern aktiv die's können; ältere bekommen weiterhin den JS-Bar. */
+@supports (animation-timeline: scroll()) {
+    @keyframes scrollGrow {
+        from { transform: scaleX(0); }
+        to   { transform: scaleX(1); }
+    }
+    @keyframes revealOnView {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Lightweight CSS-only reveal on scrollable cards
+       Greift nur, wenn JS-Reveal noch nicht 'in-view' gesetzt hat — vermeidet Doppelung */
+    .card:not(.in-view),
+    .achievement-card:not(.in-view),
+    .visual-card:not(.in-view) {
+        animation: revealOnView linear both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 30%;
+    }
+}
+
+/* ----- Dark Mode (manueller Toggle + auto via prefers-color-scheme) ----- */
+:root {
+    color-scheme: light;
+}
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --green-900: #d8f3dc;
+    --green-700: #95d5b2;
+    --green-500: #52b788;
+    --green-300: #2d6a4f;
+    --green-100: #1b4332;
+    --cream: #0f1a14;
+    --sand: #14241c;
+    --ink: #f0f5f1;
+    --muted: #a8b8ae;
+    --line: #2a3a30;
+    --white: #14241c;
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.55);
+}
+html[data-theme="dark"] body {
+    background: var(--cream);
+    color: var(--ink);
+}
+html[data-theme="dark"] p,
+html[data-theme="dark"] .legal {
+    color: #cbd5d0;
+}
+html[data-theme="dark"] .header {
+    background: rgba(15, 26, 20, 0.85);
+    border-bottom-color: var(--line);
+}
+html[data-theme="dark"] .header.scrolled {
+    background: rgba(15, 26, 20, 0.96);
+}
+html[data-theme="dark"] .nav a,
+html[data-theme="dark"] .logo {
+    color: var(--ink);
+}
+html[data-theme="dark"] .nav-pill a,
+html[data-theme="dark"] .filter-btn {
+    background: var(--green-100);
+    color: var(--green-700);
+}
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .event,
+html[data-theme="dark"] .team-member,
+html[data-theme="dark"] .achievement-card,
+html[data-theme="dark"] .visual-card,
+html[data-theme="dark"] .contact-form input,
+html[data-theme="dark"] .contact-form textarea,
+html[data-theme="dark"] .contact-form select {
+    background: var(--white);
+    border-color: var(--line);
+    color: var(--ink);
+}
+html[data-theme="dark"] .section-alt {
+    background: #0d1612;
+}
+html[data-theme="dark"] .footer {
+    background: #0a120e;
+    border-top-color: var(--line);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-grid;
+    place-items: center;
+    transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform 0.4s var(--ease-spring);
+    margin-left: 0.5rem;
+}
+.theme-toggle:hover {
+    background: color-mix(in oklch, var(--green-100), transparent 50%);
+    border-color: var(--green-300);
+    transform: rotate(20deg);
+}
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* Event action buttons (Share + ICS) */
+.event-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    flex-wrap: wrap;
+}
+.event-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    background: var(--green-100);
+    color: var(--green-900);
+    border: 1px solid color-mix(in oklch, var(--green-300), transparent 50%);
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.event-action:hover {
+    background: color-mix(in oklch, var(--green-300), transparent 40%);
+    transform: translateY(-1px);
+}
+.event-action svg { width: 14px; height: 14px; }
+
+/* Leaflet map container on contact page */
+.map-container {
+    width: 100%;
+    height: 320px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 1.25rem;
+    border: 1px solid var(--line);
+    background: var(--green-100);
+}
+.map-container .leaflet-container {
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    font-family: inherit;
+}
+
+/* PWA install prompt banner */
+.pwa-install-banner {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--green-900);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 100px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    transition: transform 0.5s var(--ease-spring);
+    font-size: 0.9rem;
+    max-width: calc(100vw - 2rem);
+}
+.pwa-install-banner.visible {
+    transform: translateX(-50%) translateY(0);
+}
+.pwa-install-banner button {
+    background: var(--green-500);
+    border: none;
+    color: #fff;
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.pwa-install-banner .pwa-dismiss {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.4rem 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition { navigation: none; }
+    .section-cta { animation: none; }
+    .theme-toggle:hover { transform: none; }
+}
