@@ -1595,3 +1595,125 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) {
     .achievement-spotlight { flex-direction: column; gap: 1rem; }
 }
+
+/* ============================================
+   ENHANCEMENTS – Tier 2 + 3 (Cursor, Particles, SVG Icons, Tilt Glare)
+   ============================================ */
+
+/* Glow cursor — desktop only */
+.glow-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: multiply;
+}
+.glow-cursor.hidden { opacity: 0; }
+.glow-cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--green-700);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) translate(var(--dx, 0), var(--dy, 0));
+    transition: width 0.2s, height 0.2s, background 0.2s;
+}
+.glow-cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(45, 106, 79, 0.45);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) translate(var(--rx, 0), var(--ry, 0));
+    transition: width 0.25s var(--ease-spring), height 0.25s var(--ease-spring), border-color 0.2s, background 0.2s;
+}
+.glow-cursor.hover .glow-cursor-ring {
+    width: 64px; height: 64px;
+    border-color: rgba(45, 106, 79, 0.7);
+    background: rgba(82, 183, 136, 0.10);
+}
+.glow-cursor.hover .glow-cursor-dot {
+    width: 4px; height: 4px;
+}
+@media (pointer: coarse) {
+    .glow-cursor { display: none; }
+}
+body.has-glow-cursor,
+body.has-glow-cursor a,
+body.has-glow-cursor button {
+    cursor: none;
+}
+
+/* Canvas particles in CTA section */
+.section-cta { position: relative; overflow: hidden; }
+.particles-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+}
+.section-cta > .container { position: relative; z-index: 1; }
+
+/* Animated SVG card icons (replaces emoji) */
+.card-icon-svg {
+    width: 56px;
+    height: 56px;
+    color: var(--green-700);
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--green-100), rgba(213, 243, 220, 0.4));
+    border-radius: 14px;
+    padding: 12px;
+    transition:
+        transform 0.5s var(--ease-spring),
+        background 0.4s var(--ease-out),
+        color 0.4s var(--ease-out);
+}
+.card-icon-svg svg {
+    width: 100%; height: 100%;
+    transition: transform 0.5s var(--ease-spring);
+}
+.card:hover .card-icon-svg {
+    transform: rotate(-6deg) scale(1.08);
+    background: linear-gradient(135deg, var(--green-300), var(--green-100));
+    color: var(--green-900);
+}
+.card:hover .card-icon-svg svg {
+    transform: scale(1.05);
+}
+
+/* Vanilla Tilt glare cleanup (library injects extra layer) */
+.card, .team-member, .achievement-card, .visual-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.card .js-tilt-glare,
+.team-member .js-tilt-glare,
+.achievement-card .js-tilt-glare,
+.visual-card .js-tilt-glare {
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+/* Magnetic-button transition smoothing */
+.btn-primary, .btn-large {
+    transition: transform 0.4s var(--ease-spring), background var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+}
+
+/* SplitType char prep — keeps layout stable */
+.hero-title .char,
+.hero h1 .char {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+/* Reduced motion: disable all enhancements */
+@media (prefers-reduced-motion: reduce) {
+    .glow-cursor { display: none; }
+    .particles-canvas { display: none; }
+    .card-icon-svg { transition: none; }
+    body.has-glow-cursor,
+    body.has-glow-cursor a,
+    body.has-glow-cursor button { cursor: auto; }
+}
