@@ -235,7 +235,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateDisplay() {
             const item = items[currentIdx];
-            display.style.background = item.style.background;
+            const srcImg = item.querySelector('img');
+            const lightboxImg = display.querySelector('.lightbox-img');
+            if (srcImg && lightboxImg) {
+                lightboxImg.src = srcImg.src;
+                lightboxImg.alt = srcImg.alt || '';
+                lightboxImg.style.display = 'block';
+                display.style.background = '#111';
+            } else {
+                if (lightboxImg) lightboxImg.style.display = 'none';
+                display.style.background = item.style.background;
+            }
             labelEl.textContent = item.querySelector('.gallery-label')?.textContent ?? '';
             const vis = getVisible();
             const pos = vis.indexOf(item) + 1;
