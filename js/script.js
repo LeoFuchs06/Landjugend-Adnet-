@@ -349,6 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         contactForm.addEventListener('submit', e => {
             e.preventDefault();
+            if (document.getElementById('hp-website')?.value) return;
             const fields = [...contactForm.querySelectorAll('input[required], textarea[required]')];
             let allValid   = true;
             let firstInvalid = null;
@@ -362,18 +363,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!allValid) { firstInvalid?.focus(); return; }
 
-            formStatus.textContent = '✓ Vielen Dank für deine Nachricht! Wir melden uns bald bei dir.';
-            formStatus.classList.add('success');
-            contactForm.reset();
-            contactForm.querySelectorAll('.form-group.has-error').forEach(g => {
-                g.classList.remove('has-error');
-                const errEl = g.querySelector('.field-error');
-                if (errEl) errEl.textContent = '';
-            });
-            setTimeout(() => {
-                formStatus.classList.remove('success');
-                formStatus.textContent = '';
-            }, 6000);
+            const submitBtn = contactForm.querySelector('[type="submit"]');
+            submitBtn.disabled = true;
+            formStatus.textContent = 'Wird gesendet…';
+            formStatus.className = 'form-status';
+
+            const data = new FormData(contactForm);
+
+            fetch('mail.php', { method: 'POST', body: data })
+                .then(r => r.json())
+                .then(json => {
+                    if (json.ok) {
+                        formStatus.textContent = '✓ Vielen Dank für deine Nachricht! Wir melden uns bald bei dir.';
+                        formStatus.classList.add('success');
+                        contactForm.reset();
+                        contactForm.querySelectorAll('.form-group.has-error').forEach(g => {
+                            g.classList.remove('has-error');
+                            const errEl = g.querySelector('.field-error');
+                            if (errEl) errEl.textContent = '';
+                        });
+                        setTimeout(() => {
+                            formStatus.classList.remove('success');
+                            formStatus.textContent = '';
+                        }, 6000);
+                    } else {
+                        formStatus.textContent = '✕ Senden fehlgeschlagen. Bitte versuche es erneut oder schreib uns direkt per E-Mail.';
+                        formStatus.classList.add('error');
+                    }
+                })
+                .catch(() => {
+                    formStatus.textContent = '✕ Netzwerkfehler. Bitte versuche es erneut.';
+                    formStatus.classList.add('error');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                });
         });
     }
 
