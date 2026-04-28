@@ -249,3 +249,194 @@
         }
     });
 })();
+
+/* ================================================================
+ * 2026 Native Platform Features
+ * Service Worker · ICS Calendar · WebShare · Dark Mode · Install Prompt
+ * Loaded inside its own IIFE so it's independent from the block above.
+ * ================================================================ */
+(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ─── Dark Mode (early, runs before DOMContentLoaded to avoid flash) ──
+    const stored = (() => { try { return localStorage.getItem('lj-theme'); } catch (_) { return null; } })();
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = stored || (systemPrefersDark ? 'dark' : 'light');
+    document.documentElement.dataset.theme = initialTheme;
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ─── 1. Service Worker registration ──────────────────────────────
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('js/sw.js')
+                    .catch(err => console.warn('SW registration failed:', err));
+            });
+        }
+
+        // ─── 2. Dark Mode Toggle Button ──────────────────────────────────
+        const navContainer = document.querySelector('.header-inner');
+        if (navContainer && !document.querySelector('.theme-toggle')) {
+            const toggle = document.createElement('button');
+            toggle.className = 'theme-toggle';
+            toggle.setAttribute('aria-label', 'Farbschema wechseln');
+            toggle.innerHTML = `
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                </svg>`;
+            const navToggleBtn = navContainer.querySelector('.nav-toggle');
+            if (navToggleBtn) navContainer.insertBefore(toggle, navToggleBtn);
+            else navContainer.appendChild(toggle);
+
+            toggle.addEventListener('click', () => {
+                const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+                const apply = () => {
+                    document.documentElement.dataset.theme = next;
+                    try { localStorage.setItem('lj-theme', next); } catch (_) {}
+                };
+                if (document.startViewTransition && !reduced) {
+                    document.startViewTransition(apply);
+                } else {
+                    apply();
+                }
+            });
+        }
+
+        // ─── 3. ICS Calendar download for events ─────────────────────────
+        const events = document.querySelectorAll('.event[data-date]');
+        if (events.length) {
+            const pad = n => String(n).padStart(2, '0');
+            const fmtICS = d => `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
+            const escapeICS = s => String(s || '').replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n');
+
+            const icsFor = (title, dateStr, locationStr, descStr) => {
+                const start = new Date(dateStr + 'T16:00:00');
+                const end   = new Date(start.getTime() + 4 * 60 * 60 * 1000);
+                return [
+                    'BEGIN:VCALENDAR', 'VERSION:2.0',
+                    'PRODID:-//Landjugend Adnet//DE',
+                    'BEGIN:VEVENT',
+                    `UID:${dateStr}-${title.replace(/\s+/g, '-')}@landjugend-adnet.at`,
+                    `DTSTAMP:${fmtICS(new Date())}`,
+                    `DTSTART:${fmtICS(start)}`,
+                    `DTEND:${fmtICS(end)}`,
+                    `SUMMARY:${escapeICS(title)}`,
+                    `LOCATION:${escapeICS(locationStr)}`,
+                    `DESCRIPTION:${escapeICS(descStr)}`,
+                    'END:VEVENT', 'END:VCALENDAR'
+                ].join('\r\n');
+            };
+
+            const supportsShare = !!navigator.share;
+
+            events.forEach(ev => {
+                const title    = ev.querySelector('.event-info h3')?.textContent.replace(/In \d+ Tag.*|Heute!/, '').trim() || 'Event';
+                const meta     = ev.querySelector('.event-meta')?.textContent || '';
+                const desc     = ev.querySelector('.event-info p:last-of-type')?.textContent || '';
+                const dateStr  = ev.dataset.date;
+                const location = (meta.match(/📍\s*([^·]+)/) || [, 'Adnet'])[1].trim();
+
+                if (ev.querySelector('.event-actions')) return; // idempotent
+
+                const actions = document.createElement('div');
+                actions.className = 'event-actions';
+
+                const icsBtn = document.createElement('button');
+                icsBtn.type = 'button';
+                icsBtn.className = 'event-action';
+                icsBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> In Kalender`;
+                icsBtn.addEventListener('click', () => {
+                    const blob = new Blob([icsFor(title, dateStr, location, desc)], { type: 'text/calendar' });
+                    const url  = URL.createObjectURL(blob);
+                    const a    = document.createElement('a');
+                    a.href = url;
+                    a.download = `${title.replace(/[^\w-]+/g, '_')}.ics`;
+                    document.body.appendChild(a); a.click(); a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                });
+                actions.appendChild(icsBtn);
+
+                if (supportsShare) {
+                    const shareBtn = document.createElement('button');
+                    shareBtn.type = 'button';
+                    shareBtn.className = 'event-action';
+                    shareBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg> Teilen`;
+                    shareBtn.addEventListener('click', async () => {
+                        try {
+                            await navigator.share({
+                                title: `${title} – Landjugend Adnet`,
+                                text:  `${title} am ${new Date(dateStr).toLocaleDateString('de-AT', { day: '2-digit', month: 'long', year: 'numeric' })} in ${location}.`,
+                                url:   location.href || window.location.href
+                            });
+                        } catch (err) { /* User cancelled */ }
+                    });
+                    actions.appendChild(shareBtn);
+                }
+
+                ev.querySelector('.event-info')?.appendChild(actions);
+            });
+        }
+
+        // ─── 4. PWA Install Prompt Banner ────────────────────────────────
+        let deferredPrompt = null;
+        const installBanner = () => {
+            if (document.querySelector('.pwa-install-banner')) return null;
+            const b = document.createElement('div');
+            b.className = 'pwa-install-banner';
+            b.innerHTML = `
+                <span>📱 Landjugend Adnet zur Startseite?</span>
+                <button class="pwa-install">Installieren</button>
+                <button class="pwa-dismiss" aria-label="Schließen">✕</button>`;
+            document.body.appendChild(b);
+            return b;
+        };
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const dismissed = (() => { try { return localStorage.getItem('lj-pwa-dismissed'); } catch (_) { return null; } })();
+            if (dismissed) return;
+
+            setTimeout(() => {
+                const b = installBanner();
+                if (!b) return;
+                requestAnimationFrame(() => b.classList.add('visible'));
+
+                b.querySelector('.pwa-install').addEventListener('click', async () => {
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();
+                    deferredPrompt = null;
+                    b.classList.remove('visible');
+                });
+                b.querySelector('.pwa-dismiss').addEventListener('click', () => {
+                    b.classList.remove('visible');
+                    try { localStorage.setItem('lj-pwa-dismissed', '1'); } catch (_) {}
+                });
+            }, 8000);
+        });
+
+        // ─── 5. Leaflet map on contact page ──────────────────────────────
+        const mapEl = document.getElementById('lj-map');
+        if (mapEl && window.L) {
+            const adnet = [47.7, 13.13]; // approx Adnet, Salzburg
+            const map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: true }).setView(adnet, 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            const icon = L.divIcon({
+                className: 'lj-map-pin',
+                html: '<div style="width:32px;height:32px;background:#2d6a4f;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 12px rgba(0,0,0,0.3);display:grid;place-items:center;color:#fff;font-weight:700;font-family:Bitter,serif"><span style="transform:rotate(45deg);font-size:14px">LJ</span></div>',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32]
+            });
+            L.marker(adnet, { icon }).addTo(map).bindPopup('<strong>Landjugend Adnet</strong><br>5421 Adnet, Salzburg');
+            mapEl.addEventListener('click', () => map.scrollWheelZoom.enable(), { once: true });
+        }
+    });
+})();
+
